@@ -1,0 +1,50 @@
+﻿@page "/Data/JobInventory"
+
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+
+@inject IJobData _db
+
+<h1>JobInventory Page</h1>
+<h4>Current Job Inventory</h4>
+
+@if (jobs is null)
+{
+    <p><em>Loading....</em></p>
+}
+else
+{
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Execution Server</th>
+            <th>Job_Definition</th>
+            <th>Job Schedule</th>
+            <th>Started</th>
+            <th>Finished</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in jobs)
+        {
+            <tr>
+                <td>@job.Name</td>
+                <td>@job.Execution_Server</td>
+                <td>@job.Job_Definition</td>
+                <td>@job.Job_Schedule.</td>
+                <td>@job.Started</td>
+                <td>@job.Finished</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code {
+    private List<JobModel> jobs;
+    protected override async Task OnInitializedAsync()
+    {
+        jobs = await  _db.GetJobs();
+    }
+}
